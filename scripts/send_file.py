@@ -43,13 +43,13 @@ def open_file(filename):
     for i, line in enumerate(reader):
         size = sys.getsizeof(line)
         total_size = total_size + size
+        if line == '\n': # skip blank lines
+            continue
         if (i % chunk_size == 0 and i > 0):
             use_requests(chunk)
             del chunk[:]  # or: chunk = []
             total_size = size
             chunk.append(line)
-        if line == '\n': # skip blank lines
-            continue
         if (total_size > max_size): # before request size limit
             use_requests(chunk)
             del chunk[:]  # or: chunk = []
